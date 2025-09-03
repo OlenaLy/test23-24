@@ -108,13 +108,13 @@ const addBtn = $('.form__btn');
 //   })
 
 async function loadTodos() {
-  const res = await fetch("/todo-list");
+  const res = await fetch("/api/todo-list");
   const todos = await res.json();
   console.log("Todos from server:", todos);
 }
 
 async function addTodo(text) {
-  const res = await fetch("/todo", {
+  const res = await fetch("/api/todo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text, isDone: false })

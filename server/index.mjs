@@ -8,20 +8,12 @@ import url from 'url';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const mongoUrl = process.env.MONGO_URL ||'mongodb://localhost:27017/madatabase';
+const mongoUrl = process.env.MONGO_URL ||'mongodb+srv://lenalitvinen4ik_db_user:caztWOuzrWMoNAOs@cluster0.vtkrs8m.mongodb.net/madatabase?retryWrites=true&w=majority';
 
-// mongoose.connect(mongoUrl,  {
-//   ssl: true,
-//   tlsAllowInvalidCertificates: false
-// });
-// mongoose.connection.on('open', () => {
-//   console.log('Mongo DB is connect');
-// });
-// mongoose.connection.on('error', () => {
-//   console.log('Mongo DB is failed connect');
-// });
-mongoose.connect(mongoUrl,  { useNewUrlParser: true, useUnifiedTopology: true,
-ssl: false,
+mongoose.connect(mongoUrl,  { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true,
+ssl: true,
 });
 mongoose.connection.on('open', () => {
     console.log('Mongo DB is connected');
@@ -32,11 +24,12 @@ mongoose.connection.on('error', (err) => {
 
 const app = express();
 const PORT = process.env.PORT || 5500;
+const HOST = '0.0.0.0'
 
 //app.use тоді app.get не потрібно
 app.use(express.json()); // для читання JSON у body
 app.use(cors());
-app.use(express.static(path.join(__dirname, "../client")));//віддає index.html
+app.use(express.static(path.join(__dirname, '../client')));//віддає index.html
 // CRUD
 //Read
 app.get("/api/todo-list", async (req, res) => {
@@ -83,6 +76,6 @@ app.put("/api/todo/:id", async (req, res) => {
     }
   });
 //старт сервера
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
     console.log(` Server started on http://localhost:${PORT}`);
 })
