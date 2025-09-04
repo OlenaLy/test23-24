@@ -13,7 +13,7 @@ const mongoUrl = process.env.MONGO_URL ||'mongodb+srv://lenalitvinen4ik_db_user:
 mongoose.connect(mongoUrl,  { 
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-ssl: true,
+// ssl: true,
 });
 mongoose.connection.on('open', () => {
     console.log('Mongo DB is connected');
