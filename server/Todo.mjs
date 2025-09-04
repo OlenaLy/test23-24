@@ -1,3 +1,4 @@
+//змінено ім'я файла
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
