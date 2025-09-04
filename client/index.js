@@ -21,22 +21,22 @@ const addBtn = $('.form__btn');
     // }
   
     // Створення елемента списку
-    function createTodoEl(text, checked = false) {
+    function createTodoEl(text, checked = false, id = null) {
       const $li = $('<li>', {
-        class: 'list-group-item todo-item' + (checked ? ' todo-item--checked' : ''), 'data-id': id
+        class: 'list-group-item todo-item' + (checked ? ' todo-item--checked' : ''),
+        'data-id': id
       });
-  
+    
       const $checkbox = $('<input>', { type: 'checkbox' }).prop('checked', checked);
-      const $span = $('<span>', { class: 'todo-item__description', text: text });
+      const $span = $('<span>', { class: 'todo-item__description', text });
       const $btn = $('<button>', {
         type: 'button',
         class: 'btn btn-sm btn-danger todo-item__delete',
         text: 'Видалити'
       });
-  
+    
       $li.append($checkbox, ' ', $span, ' ', $btn).appendTo(todosUl);
     }
-  
     // Завантаження з localStorage
     // function loadTodos() {
     //   todosUl.empty();
@@ -51,7 +51,7 @@ const addBtn = $('.form__btn');
       const res = await fetch("/api/todo-list");
       const todos = await res.json();
       todos.forEach(todo => {
-        createTodoEl(todo.text, todo.isDone);
+        createTodoEl(todo.text, todo.isDone, todo._id);
       });
     }
     
@@ -75,15 +75,11 @@ const addBtn = $('.form__btn');
       const text = $.trim(textInputUser.val());
       if (!text) { alert('Поле не може бути пустим!'); return; }
     
-      const res = await fetch("/api/todo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, isDone: false })
-      });
-      const newTodo = await res.json();
-      createTodoEl(newTodo.text, newTodo.isDone);
+      const newTodo = await addTodo(text);
+      createTodoEl(newTodo.text, newTodo.isDone, newTodo._id);
       textInputUser.val('');
     });
+    
     
   
     // видалення
@@ -134,11 +130,11 @@ const addBtn = $('.form__btn');
       console.warn('Модалка не ініціалізована: перевір, чи підключено Bootstrap і чи є #infoModal');
     };
 
-async function loadTodos() {
-  const res = await fetch("/api/todo-list");
-  const todos = await res.json();
-  console.log("Todos from server:", todos);
-}
+// async function loadTodos() {
+//   const res = await fetch("/api/todo-list");
+//   const todos = await res.json();
+//   console.log("Todos from server:", todos);
+// }
 
 async function addTodo(text) {
   const res = await fetch("/api/todo", {
@@ -147,23 +143,23 @@ async function addTodo(text) {
     body: JSON.stringify({ text, isDone: false })
   });
   const newTodo = await res.json();
-  console.log("New todo added:", newTodo);
+  return newTodo;
 }
 
-loadTodos();
+// loadTodos();
 
-fetch('/api/todo-list')
-  .then(resp => resp.json())
-  .then(list => {
-    const listEl = document.createElement('ul');
+// fetch('/api/todo-list')
+//   .then(resp => resp.json())
+//   .then(list => {
+//     const listEl = document.createElement('ul');
 
-    const todoItemEls = list.map(item => {
+//     const todoItemEls = list.map(item => {
 
-        const itemEl = document.createElement('li');
-        itemEl.textContent = item.text;
-        return itemEl;
-        })
-    listEl.append(...todoItemEls);
-    document.body.append(listEl);
-  })
+//         const itemEl = document.createElement('li');
+//         itemEl.textContent = item.text;
+//         return itemEl;
+//         })
+//     listEl.append(...todoItemEls);
+//     document.body.append(listEl);
+//   })
 })
