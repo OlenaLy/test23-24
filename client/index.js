@@ -85,27 +85,6 @@ const addBtn = $('.form__btn');
     } else {
       console.warn('Модалка не ініціалізована: перевір, чи підключено Bootstrap і чи є #infoModal');
     };
-//})
-
-
-// function fetchJson(url) {
-//   return fetch(url)
-//   .then(resp => resp.json())
-//   .then (user => {
-//     console.log('Message from server: ', user);
-    
-//   })
-// }
-// fetchJson('http://localhost:5500/todo-list')
-//   .then(list => {
-//     const listEl = DocumentTimeline.querySelector('.js--todos-wrapper');
-//     const listItemEls = list.map(item => {
-//       const itemEl = document.createElement('li');
-//       itemEl.textContent = item.text;
-//       return itemEl;
-//     });
-//     listEl.append(...listItemEls);
-//   })
 
 async function loadTodos() {
   const res = await fetch("/api/todo-list");
