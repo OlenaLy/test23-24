@@ -7,13 +7,12 @@ import url from 'url';
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const mongoUrl = process.env.MONGO_URL ||'mongodb+srv://lenalitvinen4ik_db_user:caztWOuzrWMoNAOs@cluster0.vtkrs8m.mongodb.net/madatabase?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://lenalitvinen4ik_db_user:caztWOuzrWMoNAOs@cluster0.vtkrs8m.mongodb.net/madatabase?retryWrites=true&w=majority';
+const mongoUrl = process.env.MONGO_URL || uri ;
 
 mongoose.connect(mongoUrl,  { 
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-// ssl: true,
 });
 mongoose.connection.on('open', () => {
     console.log('Mongo DB is connected');
